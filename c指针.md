@@ -39,3 +39,8 @@ sizeof(指针) 返回了4或8，但是将指针换为数组，返回的将是数
 只要把数组传递给函数，数组免不了退化为指针，但需要记清楚代码中有哪些地方发生过数组退化，因为它们会引发一些不易察觉的错误。
 
 ![1560310129321](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1560310129321.png)
+
+![1560328951284](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1560328951284.png)
+
+![1560417751682](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1560417751682.png)
+
