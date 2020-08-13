@@ -172,3 +172,21 @@ sunion key1 [key2] 返回所有给定集合的并集
 
 sunionstore destination key1 [key2] 所有给定集合的并集存储在destination集合中
 
+## 1.8redis 数据备份和恢复
+
+save 用于创建当前数据库的备份，此命令将在安装目录中创建dump.rdb文件
+
+如果需要恢复数据，只需要将备份文件（dump.rdb）移动到redis安装目录并启动服务即可。
+
+获取redis目录可以使用config命令，config get dir 获取redis安装目录
+
+bgsave 创建redis备份文件也可以使用命令bgsave，该命令在后台执行
+
+## 1.9redis安全
+
+可以通过config get requirepass这个命令查看是否设置了密码验证，如果密码为空串，意味着无需密码验证就可以连接到redis服务。
+
+config set requirepass “123456” 设置密码为123456
+
+auth password 验证密码
+
