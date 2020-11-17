@@ -206,3 +206,206 @@ eg： [ ! $USER = root ] && echo "user" || echo "root" 类似于三目运算
 
 
 
+for条件循环语句
+
+​		for 变量名 in 取值列表
+
+​		do
+
+​				命令序列
+
+​		done
+
+
+
+​		for 用户名 in 列表文件
+
+​		do
+
+​				创建用户并设置密码
+
+​		done
+
+
+
+**   /dev/null是一个被称作Linux黑洞的文件，把输出信息重定向到这个文件等同于删除数据（类似于没有回收功能的垃圾箱），可以让用户的屏幕窗口保持简洁。
+
+
+
+#!/bin/bash
+
+read -p "Enter the users password:"  PASSWD
+
+for UNAME in 'cat users.txt'
+
+do 
+
+​	id $UNAME &> /dev/null
+
+​	if [ $? -eq 0 ]
+
+​		then
+
+​			echo "already exists"
+
+​	else
+
+​		useradd $UNAME &> /dev/null
+
+​		echo "$PASSWD" | passwd --stdin $UNAME &> /dev/null
+
+​		if [ $? -eq 0 ]
+
+​			then
+
+​				echo "$UNAME,create success"
+
+​		else
+
+​			echo "$UNAME,Create failure"
+
+​		fi
+
+​	fi
+
+done
+
+
+
+read 从输入行读取一个变量值  **-p 参数，允许在 read 命令行中直接指定一个提示。**
+
+ 
+
+while条件循环语句
+
+while 条件测试操作
+
+do
+
+​	命令序列
+
+done
+
+
+
+while 未猜中正确价格
+
+do
+
+​	反复猜测商品价格
+
+done
+
+
+
+#!/bin/bash
+
+PRICE=$(EXPR $RANDOM % 1000)
+
+TIMES = 0
+
+echo "商品实际价格为0-999之间，猜猜看是多少"
+
+while true
+
+do
+
+​	read -p "请输入您猜测的价格数目：" INT
+
+​	let TIMES++
+
+​	if [ $int -eq $PRICE];  then
+
+​		echo "恭喜你答对了，实际价格是$PRICE"
+
+​		echo "共猜测$TIMES次"
+
+​		exit 0
+
+​	elif [ $INT -gt $PRICE] ; then
+
+​		echo "太高了"
+
+​	else
+
+​		echo "太低了"
+
+​	fi
+
+done
+
+
+
+case 条件测试语句的语法结构
+
+case 变量值 in
+
+模式1）
+
+​	命令序列1
+
+​	;;
+
+模式2）
+
+​	命令序列2
+
+​	;;
+
+......
+
+*)
+
+​	默认命令序列
+
+esac
+
+
+
+case 输入的字符 in 
+
+[a-z]|[A-Z])
+
+​	提示为字母
+
+​	;;
+
+[0-9])	
+
+​	提示为数字。
+
+​	;;
+
+​	.......
+
+*)
+
+​	提示为特殊字符
+
+esac
+
+
+
+
+
+3.4计划任务服务程序
+
+echo "systemctl restart httpd" | at 23:30
+
+at -l 如果想要查看设置好但还未只想的一次性计划任务
+
+atrm 任务序号 删除任务
+
+如果希望系统能够周期性的、有规律的执行某些具体的任务，那么Linux系统中默认启用的crond服务简直再适合不过了。创建、编辑计划任务的命令为“crontab -e”,查看当前计划任务的命令为“crontab -l”， 删除某条计划任务的命令为“crontab -r”。如果是管理员，可以在crontab命令中加上-u参数编辑他人的计划任务。
+
+分、时、日、月、星期 命令，如果有字段没有设置，需要使用星号（*）占位。
+
+分 取0~59的整数
+
+时 取0~23的任意整数
+
+日 取1~31的任意整数
+
+月 取1~12的任意整数
+
+星期 取0~7的任意整数，其中0与7均为星期日
